@@ -16,12 +16,12 @@ public class RegistrationController {
     @Autowired
     RegistrationRepository registrationRepository;
 
-    @GetMapping("/registrations")
+    @GetMapping("/api/registrations")
     public List<Registration> getAllRegistrations() {
         return registrationRepository.findAll();
     }
 
-    @PostMapping("/registrations")
+    @PostMapping("/api/registrations")
     public void insertRegistration(@RequestBody @Valid Registration registration) {
         registrationRepository.save(registration);
     }

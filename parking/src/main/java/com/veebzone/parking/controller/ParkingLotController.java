@@ -20,12 +20,12 @@ public class ParkingLotController {
     @Autowired
     ParkingLotService parkingLotService;
 
-    @GetMapping("/floors")
+    @GetMapping("/api/floors")
     public List<Floor> getAllFloors() {
         return parkingLotService.getAllFloors();
     }
 
-    @GetMapping("/floors/{id}/slots")
+    @GetMapping("/api/floors/{id}/slots")
     public List<Slot> getSlotsOnFloor(@PathVariable Long id) {
         return parkingLotService.getSlotsOnFloor(id);
     }

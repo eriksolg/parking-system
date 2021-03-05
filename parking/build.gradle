@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'war'
 	id "com.github.node-gradle.node" version "3.0.1"
+	id "org.gretty" version "3.0.3"
 }
 
 group = 'com.veebzone'
@@ -17,7 +18,7 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 }
 
 processResources {
@@ -61,4 +62,8 @@ war {
 
 node {
 	nodeProjectDir = file("${project.projectDir}/src/main/frontend")
+}
+
+gretty {
+	contextPath=""
 }
