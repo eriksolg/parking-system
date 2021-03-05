@@ -15,15 +15,16 @@ public class Slot {
     @Column(name = "slot_id")
     private Long id;
 
+    @NotNull
+    @Column(name = "name")
+    private String name;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "floor_id")
     private Floor floor;
 
-    @NotNull
-    @Column(name = "name")
-    private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "slot")
     private Set<Registration> registrations;
 }

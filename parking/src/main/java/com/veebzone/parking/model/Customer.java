@@ -16,6 +16,10 @@ public class Customer {
     private Long id;
 
     @NotNull
+    @Column(name = "id_number", unique = true)
+    private String idNumber;
+
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
 
@@ -23,6 +27,6 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private Set<Registration> registrations;
 }

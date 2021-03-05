@@ -16,7 +16,7 @@ public class Vehicle {
     private Long id;
 
     @NotNull
-    @Column(name = "reg_number")
+    @Column(name = "reg_number", unique = true)
     private String registrationNumber;
 
     @NotNull
@@ -27,6 +27,6 @@ public class Vehicle {
     @Column(name = "height")
     private int height;
 
-    @OneToMany
+    @OneToMany(mappedBy = "vehicle")
     private Set<Registration> registrations;
 }

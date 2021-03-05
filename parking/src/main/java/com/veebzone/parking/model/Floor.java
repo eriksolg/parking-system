@@ -16,6 +16,10 @@ public class Floor {
     private Long id;
 
     @NotNull
+    @Column(name = "floor_number")
+    private String floorNumber;
+
+    @NotNull
     @Column(name = "height")
     private int height;
 
@@ -23,6 +27,6 @@ public class Floor {
     @Column(name = "weight_cap")
     private int weightCapacity;
 
-    @OneToMany
+    @OneToMany (mappedBy = "floor")
     private Set<Slot> slots;
 }

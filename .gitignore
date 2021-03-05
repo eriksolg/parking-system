@@ -3,4 +3,8 @@
 *.class
 *.jar
 *.war
+hsql:mem:db.lck
+hsql:mem:db.log
+hsql:mem:db.properties
+hsql:mem:db.script
 !/parking/gradle/wrapper/gradle-wrapper.jar
