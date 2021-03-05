@@ -3,6 +3,7 @@
 *.class
 *.jar
 *.war
+node_modules
 hsql:mem:db.lck
 hsql:mem:db.log
 hsql:mem:db.properties
