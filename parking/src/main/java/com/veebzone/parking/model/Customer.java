@@ -1,5 +1,6 @@
 package com.veebzone.parking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,10 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private Set<Registration> registrations;
+
     @NotNull
     @Column(name = "id_number", unique = true)
     private String idNumber;
@@ -26,7 +31,4 @@ public class Customer {
     @NotNull
     @Column(name = "last_name")
     private String lastName;
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Registration> registrations;
 }

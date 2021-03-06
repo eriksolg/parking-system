@@ -1,28 +1,39 @@
 package com.veebzone.parking.controller;
 
+import com.veebzone.parking.dto.RegistrationDto;
 import com.veebzone.parking.model.Registration;
-import com.veebzone.parking.repository.RegistrationRepository;
+import com.veebzone.parking.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RegistrationController {
     @Autowired
-    RegistrationRepository registrationRepository;
+    RegistrationService registrationService;
 
     @GetMapping("/api/registrations")
-    public List<Registration> getAllRegistrations() {
-        return registrationRepository.findAll();
+    public List<RegistrationDto> getAllRegistrations() {
+        return registrationService.getAllRegistrations();
     }
 
     @PostMapping("/api/registrations")
-    public void insertRegistration(@RequestBody @Valid Registration registration) {
-        registrationRepository.save(registration);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insertRegistration(@RequestBody @Valid RegistrationDto registration) {
+        registrationService.insertRegistration(registration);
+    }
+
+    @GetMapping("/api/registrations/{id}")
+    public RegistrationDto getSingleRegistration(@PathVariable Long id) {
+        return registrationService.getSingleRegistration(id);
+    }
+
+    @DeleteMapping("/api/registrations/{id}")
+    public void deleteSingleRegistration(@PathVariable Long id) {
+        registrationService.deleteSingleRegistration(id);
     }
 }

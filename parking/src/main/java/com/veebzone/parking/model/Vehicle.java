@@ -1,5 +1,6 @@
 package com.veebzone.parking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,10 @@ public class Vehicle {
     @Column(name = "vehicle_id")
     private Long id;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "vehicle")
+    private Set<Registration> registrations;
+
     @NotNull
     @Column(name = "reg_number", unique = true)
     private String registrationNumber;
@@ -26,7 +31,4 @@ public class Vehicle {
     @NotNull
     @Column(name = "height")
     private int height;
-
-    @OneToMany(mappedBy = "vehicle")
-    private Set<Registration> registrations;
 }

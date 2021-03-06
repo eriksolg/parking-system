@@ -1,6 +1,9 @@
 package com.veebzone.parking.model;
 
+import com.fasterxml.jackson.annotation.*;
+import com.veebzone.parking.service.ParkingLotService;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,16 +18,19 @@ public class Slot {
     @Column(name = "slot_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "name")
-    private String name;
-
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @NotNull
     @JoinColumn(name = "floor_id")
     private Floor floor;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "slot")
     private Set<Registration> registrations;
+
+    @NotNull
+    @Column(name = "name")
+    private String name;
+
 }

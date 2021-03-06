@@ -9,7 +9,7 @@ drop table if exists vehicle CASCADE;
 drop table if exists vehicle_registrations CASCADE;
 drop sequence hibernate_sequence if exists;
 
-create sequence hibernate_sequence start with 1 increment by 1;
+create sequence hibernate_sequence start with 100 increment by 1;
 
 create table customer (
     customer_id bigint not null,
@@ -32,6 +32,9 @@ create table registration (
     customer_id bigint not null,
     slot_id bigint not null,
     vehicle_id bigint not null,
+    checkin_time timestamp not null,
+    checkout_time timestamp,
+    notes varchar(2560),
     primary key (registration_id)
 );
 
