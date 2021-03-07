@@ -27,7 +27,7 @@ public class VehicleController {
     }
 
     @GetMapping("/api/vehicles/{id}")
-    public Optional<Vehicle> getSingleVehicle(@PathVariable Long id) {
+    public Vehicle getSingleVehicle(@PathVariable Long id) {
         return vehicleService.getSingleVehicle(id);
     }
 

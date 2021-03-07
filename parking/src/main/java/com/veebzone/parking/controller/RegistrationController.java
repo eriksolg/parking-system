@@ -23,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping("/api/registrations")
     @ResponseStatus(HttpStatus.CREATED)
-    public void insertRegistration(@RequestBody @Valid RegistrationDto registration) {
+    public void insertRegistration(@RequestBody RegistrationDto registration) {
         registrationService.insertRegistration(registration);
     }
 

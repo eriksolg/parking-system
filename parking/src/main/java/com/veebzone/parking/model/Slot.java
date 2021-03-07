@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -32,5 +34,7 @@ public class Slot {
     @NotNull
     @Column(name = "name")
     private String name;
+
+
 
 }

@@ -1,12 +1,12 @@
 package com.veebzone.parking.service;
 
+import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Vehicle;
 import com.veebzone.parking.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VehicleService {
@@ -20,8 +20,8 @@ public class VehicleService {
     public void inserVehicle(Vehicle vehicle) {
     }
 
-    public Optional<Vehicle> getSingleVehicle(Long id) {
-        return vehicleRepository.findById(id);
+    public Vehicle getSingleVehicle(Long id) {
+        return vehicleRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public void deleteSingleVehicle(Long id) {

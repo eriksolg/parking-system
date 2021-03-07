@@ -41,9 +41,11 @@ public class Registration {
     @Column(name = "checkin_time")
     private Timestamp checkinTime;
 
-    @NotNull
     @Column(name = "checkout_time")
     private Timestamp checkoutTime;
+
+    @Column(name = "price")
+    private double price;
 
     @Column(name = "notes")
     private String notes;

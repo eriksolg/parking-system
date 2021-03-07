@@ -33,4 +33,17 @@ public class Floor {
     @NotNull
     @Column(name = "weight_cap")
     private int weightCapacity;
+
+//    @JsonIgnore
+//    public int getCurrentWeightUsage() {
+//        int weightUsage = 0;
+//        for(Slot slot : slots) {
+////            for (Registration registration : slot.getCurrentRegistrations()) {
+////                weightUsage += registration.getVehicle().getWeight();
+////            }
+//
+//        }
+//
+//        return weightUsage;
+//    }
 }

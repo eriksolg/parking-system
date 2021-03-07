@@ -1,16 +1,18 @@
 package com.veebzone.parking.service;
 
 import com.veebzone.parking.dto.SlotDto;
+import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Floor;
+import com.veebzone.parking.model.Registration;
 import com.veebzone.parking.model.Slot;
 import com.veebzone.parking.repository.FloorRepository;
+import com.veebzone.parking.repository.RegistrationRepository;
 import com.veebzone.parking.repository.SlotRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +25,9 @@ public class ParkingLotService {
     SlotRepository slotRepository;
 
     @Autowired
+    RegistrationRepository registrationRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
     public List<Floor> getAllFloors() {
@@ -33,8 +38,10 @@ public class ParkingLotService {
         floorRepository.save(floor);
     }
 
-    public Optional<Floor> getSingleFloor(Long id) {
-        return floorRepository.findById(id);
+    public Floor getSingleFloor(Long id) {
+
+        Floor floor = floorRepository.findById(id).orElseThrow(NotFoundException::new);
+        return floor;
     }
 
     public void deleteSingleFloor(Long id) {
@@ -55,21 +62,20 @@ public class ParkingLotService {
     public void insertSlot(Long floorId, SlotDto slotDto) {
         Slot slot = new Slot();
         slot.setName(slotDto.getName());
-        slot.setFloor(floorRepository.findById(floorId).get());
+        slot.setFloor(floorRepository.findById(floorId).orElseThrow(NotFoundException::new));
         slotRepository.save(slot);
     }
 
     public SlotDto getSingleSlot(Long floorId, Long slotId) {
-        Slot slot = slotRepository.findById(slotId).get();
+        Slot slot = slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
         if (slot.getFloor().getId() != floorId) {
-            return null;
+            throw new NotFoundException();
         }
-
         return modelMapper.map(slot, SlotDto.class);
     }
 
     public void deleteSingleSlot(Long floorId, Long slotId) {
-        Slot slot = slotRepository.findById(slotId).get();
+        Slot slot = slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
         if (slot.getFloor().getId() != floorId) {
             return;
         }

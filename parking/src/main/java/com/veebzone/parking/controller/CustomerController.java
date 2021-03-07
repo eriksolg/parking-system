@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     @GetMapping("/api/customers/{id}")
-    public Optional<Customer> getSingleCustomer(@PathVariable Long id) {
+    public Customer getSingleCustomer(@PathVariable Long id) {
         return customerService.getSingleCustomer(id);
     }
 

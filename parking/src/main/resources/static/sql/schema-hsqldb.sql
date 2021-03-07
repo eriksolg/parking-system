@@ -34,6 +34,7 @@ create table registration (
     vehicle_id bigint not null,
     checkin_time timestamp not null,
     checkout_time timestamp,
+    price float,
     notes varchar(2560),
     primary key (registration_id)
 );

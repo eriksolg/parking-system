@@ -1,10 +1,12 @@
 package com.veebzone.parking.service;
 
 import com.veebzone.parking.dto.RegistrationDto;
+import com.veebzone.parking.exception.NoSlotsLeftException;
+import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Registration;
+import com.veebzone.parking.model.Slot;
 import com.veebzone.parking.repository.CustomerRepository;
 import com.veebzone.parking.repository.RegistrationRepository;
-import com.veebzone.parking.repository.SlotRepository;
 import com.veebzone.parking.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,11 @@ public class RegistrationService {
     CustomerRepository customerRepository;
     @Autowired
     VehicleRepository vehicleRepository;
+
     @Autowired
-    SlotRepository slotRepository;
+    SlotAssignmentService slotAssignmentService;
+    @Autowired
+    PricingService pricingService;
 
     public List<RegistrationDto> getAllRegistrations() {
         List<Registration> registrations =  registrationRepository.findAll();
@@ -36,11 +41,20 @@ public class RegistrationService {
     }
 
     public void insertRegistration(RegistrationDto registrationDto) {
-        registrationRepository.save(mapToEntity(registrationDto));
+        Registration registration = mapToEntity(registrationDto);
+        Slot assignedSlot = slotAssignmentService.findCompatibleSlot(registration);
+        if (assignedSlot == null) {
+            throw new NoSlotsLeftException();
+        }
+        double pricePerMinute = pricingService.calculatePricePerMinute(registration);
+
+        registration.setSlot(assignedSlot);
+        registration.setPrice(pricePerMinute);
+        registrationRepository.save(registration);
     }
 
     public RegistrationDto getSingleRegistration(Long id) {
-        Registration registration = registrationRepository.findById(id).get();
+        Registration registration = registrationRepository.findById(id).orElseThrow(NotFoundException::new);
         return mapToDto(registration);
     }
 
@@ -54,6 +68,7 @@ public class RegistrationService {
         registrationDto.setId(registration.getId());
         registrationDto.setCheckinTime(registration.getCheckinTime());
         registrationDto.setCheckoutTime(registration.getCheckoutTime());
+        registrationDto.setPrice(registration.getPrice());
         registrationDto.setNotes(registration.getNotes());
         registrationDto.setCustomer(registration.getCustomer().getId());
         registrationDto.setVehicle(registration.getVehicle().getId());
@@ -66,9 +81,9 @@ public class RegistrationService {
         registration.setCheckinTime(registrationDto.getCheckinTime());
         registration.setCheckoutTime(registrationDto.getCheckoutTime());
         registration.setNotes(registrationDto.getNotes());
-        registration.setCustomer(customerRepository.findById(registrationDto.getCustomer()).get());
-        registration.setVehicle(vehicleRepository.findById(registrationDto.getVehicle()).get());
-        registration.setSlot(slotRepository.findById(registrationDto.getSlot()).get());
+        registration.setCustomer(customerRepository.findById(registrationDto.getCustomer()).orElseThrow(NotFoundException::new));
+        registration.setVehicle(vehicleRepository.findById(registrationDto.getVehicle()).orElseThrow(NotFoundException::new));
         return registration;
     }
+
 }

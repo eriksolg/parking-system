@@ -30,7 +30,7 @@ public class ParkingLotController {
     }
 
     @GetMapping("/api/floors/{id}")
-    public Optional<Floor> getSingleFloor(@PathVariable Long id) {
+    public Floor getSingleFloor(@PathVariable Long id) {
         return parkingLotService.getSingleFloor(id);
     }
 
