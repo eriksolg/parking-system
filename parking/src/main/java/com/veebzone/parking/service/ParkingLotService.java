@@ -77,7 +77,7 @@ public class ParkingLotService {
     public void deleteSingleSlot(Long floorId, Long slotId) {
         Slot slot = slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
         if (slot.getFloor().getId() != floorId) {
-            return;
+            throw new NotFoundException();
         }
         slotRepository.deleteById(slotId);
     }
