@@ -28,8 +28,13 @@ public class RegistrationService {
     @Autowired
     PricingService pricingService;
 
-    public List<RegistrationDto> getAllRegistrations() {
-        List<Registration> registrations =  registrationRepository.findAll();
+    public List<RegistrationDto> getAllRegistrations(boolean active) {
+        List<Registration> registrations;
+        if (active) {
+            registrations =  registrationRepository.findActiveRegistrations();
+        } else {
+            registrations =  registrationRepository.findAll();
+        }
 
         List <RegistrationDto> registrationDtos = registrations
                 .stream().map(registration -> {

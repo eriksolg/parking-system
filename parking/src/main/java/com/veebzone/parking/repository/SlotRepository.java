@@ -17,4 +17,7 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
 
     @Query("SELECT s FROM Slot s WHERE s.id NOT IN ?1")
     List<Slot> findByIdExcluded(List<Long> ids);
+
+    @Query("SELECT COUNT(s) FROM Slot s")
+    int getNumberOfSlots();
 }

@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 @Data
 public class RegistrationDto {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @JsonProperty("vehicleId")
@@ -15,13 +16,15 @@ public class RegistrationDto {
     @JsonProperty("customerId")
     private Long customer;
 
-    @JsonProperty("slotId")
+    @JsonProperty(value = "slotId", access = JsonProperty.Access.READ_ONLY)
     private Long slot;
 
-    @JsonProperty("pricePerMinute")
+    @JsonProperty(value = "pricePerMinute", access = JsonProperty.Access.READ_ONLY)
     private double price;
 
     private Timestamp checkinTime;
+
     private Timestamp checkoutTime;
+
     private String notes;
 }

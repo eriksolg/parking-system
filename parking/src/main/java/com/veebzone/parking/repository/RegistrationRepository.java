@@ -12,4 +12,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     @Query("SELECT r FROM Registration r WHERE r.checkinTime < CURRENT_TIMESTAMP AND (r.checkoutTime > CURRENT_TIMESTAMP OR r.checkoutTime is null)")
     List<Registration> findActiveRegistrations();
+
+    @Query("SELECT Count(r) FROM Registration r WHERE r.checkinTime < CURRENT_TIMESTAMP AND (r.checkoutTime > CURRENT_TIMESTAMP OR r.checkoutTime is null)")
+    int getNumberOfActiveRegistrations();
 }

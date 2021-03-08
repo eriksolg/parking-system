@@ -1,18 +1,16 @@
 package com.veebzone.parking.model;
 
 import com.fasterxml.jackson.annotation.*;
-import com.veebzone.parking.service.ParkingLotService;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
+@RestResource(exported = false)
 @Table(name = "slot")
 public class Slot {
     @Id

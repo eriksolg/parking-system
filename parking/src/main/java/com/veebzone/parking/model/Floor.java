@@ -3,6 +3,7 @@ package com.veebzone.parking.model;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,10 +11,12 @@ import java.util.Set;
 
 @Data
 @Entity
+@RestResource(exported = false)
 @Table(name = "floor")
 public class Floor {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "floor_id")
     private Long id;
@@ -33,17 +36,4 @@ public class Floor {
     @NotNull
     @Column(name = "weight_cap")
     private int weightCapacity;
-
-//    @JsonIgnore
-//    public int getCurrentWeightUsage() {
-//        int weightUsage = 0;
-//        for(Slot slot : slots) {
-////            for (Registration registration : slot.getCurrentRegistrations()) {
-////                weightUsage += registration.getVehicle().getWeight();
-////            }
-//
-//        }
-//
-//        return weightUsage;
-//    }
 }

@@ -2,6 +2,7 @@ package com.veebzone.parking.model;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@RestResource(exported = false)
 @Table(name = "registration")
 public class Registration {
     @Id

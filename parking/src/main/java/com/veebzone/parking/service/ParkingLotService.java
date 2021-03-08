@@ -3,7 +3,6 @@ package com.veebzone.parking.service;
 import com.veebzone.parking.dto.SlotDto;
 import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Floor;
-import com.veebzone.parking.model.Registration;
 import com.veebzone.parking.model.Slot;
 import com.veebzone.parking.repository.FloorRepository;
 import com.veebzone.parking.repository.RegistrationRepository;

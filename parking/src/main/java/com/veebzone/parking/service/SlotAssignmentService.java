@@ -6,7 +6,6 @@ import com.veebzone.parking.model.Slot;
 import com.veebzone.parking.repository.RegistrationRepository;
 import com.veebzone.parking.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
