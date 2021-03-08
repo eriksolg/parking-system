@@ -22,7 +22,7 @@ export default {
     methods: {
         setClock() {
             this.time = moment().format('HH:mm:ss');
-            this.date = moment().format('mm/DD/yyyy');
+            this.date = moment().format('MM/DD/yyyy');
         }
     },
     mounted() {
