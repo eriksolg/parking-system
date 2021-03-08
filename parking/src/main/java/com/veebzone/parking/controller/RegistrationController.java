@@ -4,6 +4,7 @@ import com.veebzone.parking.dto.RegistrationDto;
 import com.veebzone.parking.service.RegistrationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,9 @@ public class RegistrationController {
 
     @ApiOperation(value="Get Registrations")
     @GetMapping("/api/registrations")
-    public List<RegistrationDto> getAllRegistrations(@RequestParam(name = "active", defaultValue = "false") boolean active) {
+    public List<RegistrationDto> getAllRegistrations(
+            @ApiParam(value="Get only active registrations", name="active")
+            @RequestParam(name = "active", defaultValue = "false" ) boolean active) {
         return registrationService.getAllRegistrations(active);
     }
 

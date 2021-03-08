@@ -26,4 +26,10 @@ h1 {
     font-weight: 500;
 }
 
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 50px;
+    }
+}
+
 </style>

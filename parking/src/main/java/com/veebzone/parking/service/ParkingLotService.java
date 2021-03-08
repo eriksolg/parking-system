@@ -58,19 +58,32 @@ public class ParkingLotService {
         return slotDtos;
     }
 
+    public void insertSlot(Slot slot) {
+        slotRepository.save(slot);
+    }
+
     public void insertSlot(Long floorId, SlotDto slotDto) {
         Slot slot = new Slot();
         slot.setName(slotDto.getName());
         slot.setFloor(floorRepository.findById(floorId).orElseThrow(NotFoundException::new));
-        slotRepository.save(slot);
+        insertSlot(slot);
+    }
+
+
+    public List<Slot> getAllSlots() {
+        return slotRepository.findAll();
     }
 
     public SlotDto getSingleSlot(Long floorId, Long slotId) {
-        Slot slot = slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
+        Slot slot = getSingleSlot(slotId);
         if (slot.getFloor().getId() != floorId) {
             throw new NotFoundException();
         }
         return modelMapper.map(slot, SlotDto.class);
+    }
+
+    public Slot getSingleSlot(Long slotId) {
+        return slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
     }
 
     public void deleteSingleSlot(Long floorId, Long slotId) {
@@ -80,4 +93,5 @@ public class ParkingLotService {
         }
         slotRepository.deleteById(slotId);
     }
+
 }

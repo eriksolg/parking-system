@@ -13,7 +13,7 @@ import moment from 'moment';
 
 export default {
     name: 'Clock',
-    data: function() {
+    data() {
         return {
             time: '',
             date: ''
@@ -23,11 +23,9 @@ export default {
         setClock() {
             this.time = moment().format('HH:mm:ss');
             this.date = moment().format('mm/DD/yyyy');
-
-            setInterval(self.time, 1000)
         }
     },
-    mounted: function() {
+    mounted() {
         this.interval = setInterval(this.setClock, 1000);
     },
     beforeDestroy() {

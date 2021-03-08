@@ -2,6 +2,7 @@ package com.veebzone.parking.controller;
 
 import com.veebzone.parking.dto.SlotDto;
 import com.veebzone.parking.model.Floor;
+import com.veebzone.parking.model.Slot;
 import com.veebzone.parking.service.ParkingLotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,10 +58,29 @@ public class ParkingLotController {
         parkingLotService.insertSlot(floorId, slotDto);
     }
 
+    @ApiOperation(value="Get All Slots")
+    @GetMapping("/api/floors/slots")
+    public List<Slot> getAllSlots() {
+        return parkingLotService.getAllSlots();
+    }
+
+    @ApiOperation(value="Create Slot")
+    @PostMapping("/api/floors/slots")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insertSlot(@RequestBody Slot slot) {
+        parkingLotService.insertSlot(slot);
+    }
+
     @ApiOperation(value="Get Single Slot")
     @GetMapping("/api/floors/{floorId}/slots/{slotId}")
     public SlotDto getSingleSlot(@PathVariable Long floorId, @PathVariable Long slotId) {
         return parkingLotService.getSingleSlot(floorId, slotId);
+    }
+
+    @ApiOperation(value="Get Single Slot")
+    @GetMapping("/api/floors/slots/{slotId}")
+    public Slot getSingleSlot(@PathVariable Long slotId) {
+        return parkingLotService.getSingleSlot(slotId);
     }
 
     @ApiOperation(value="Delete Slot")
