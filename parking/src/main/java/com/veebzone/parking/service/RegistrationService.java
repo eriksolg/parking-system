@@ -5,9 +5,8 @@ import com.veebzone.parking.exception.NoSlotsLeftException;
 import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Registration;
 import com.veebzone.parking.model.Slot;
-import com.veebzone.parking.repository.CustomerRepository;
 import com.veebzone.parking.repository.RegistrationRepository;
-import com.veebzone.parking.repository.VehicleRepository;
+import com.veebzone.parking.service.mappers.RegistrationDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +18,7 @@ public class RegistrationService {
     @Autowired
     RegistrationRepository registrationRepository;
     @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    VehicleRepository vehicleRepository;
+    RegistrationDtoMapper registrationDtoMapper;
 
     @Autowired
     SlotAssignmentService slotAssignmentService;
@@ -38,7 +35,7 @@ public class RegistrationService {
 
         List <RegistrationDto> registrationDtos = registrations
                 .stream().map(registration -> {
-                    return mapToDto(registration);
+                    return registrationDtoMapper.mapRegistrationToDto(registration);
                 })
                 .collect(Collectors.toList());
 
@@ -46,7 +43,7 @@ public class RegistrationService {
     }
 
     public void insertRegistration(RegistrationDto registrationDto) {
-        Registration registration = mapToEntity(registrationDto);
+        Registration registration = registrationDtoMapper.mapRegistrationDtoToEntity(registrationDto);
         Slot assignedSlot = slotAssignmentService.findCompatibleSlot(registration);
         if (assignedSlot == null) {
             throw new NoSlotsLeftException();
@@ -60,35 +57,13 @@ public class RegistrationService {
 
     public RegistrationDto getSingleRegistration(Long id) {
         Registration registration = registrationRepository.findById(id).orElseThrow(NotFoundException::new);
-        return mapToDto(registration);
+        return registrationDtoMapper.mapRegistrationToDto(registration);
     }
 
     public void deleteSingleRegistration(Long id) {
         registrationRepository.deleteById(id);
     }
 
-    public RegistrationDto mapToDto(Registration registration) {
-        RegistrationDto registrationDto = new RegistrationDto();
 
-        registrationDto.setId(registration.getId());
-        registrationDto.setCheckinTime(registration.getCheckinTime());
-        registrationDto.setCheckoutTime(registration.getCheckoutTime());
-        registrationDto.setPrice(registration.getPrice());
-        registrationDto.setNotes(registration.getNotes());
-        registrationDto.setCustomer(registration.getCustomer().getId());
-        registrationDto.setVehicle(registration.getVehicle().getId());
-        registrationDto.setSlot(registration.getSlot().getId());
-        return registrationDto;
-    }
-
-    public Registration mapToEntity(RegistrationDto registrationDto) {
-        Registration registration = new Registration();
-        registration.setCheckinTime(registrationDto.getCheckinTime());
-        registration.setCheckoutTime(registrationDto.getCheckoutTime());
-        registration.setNotes(registrationDto.getNotes());
-        registration.setCustomer(customerRepository.findById(registrationDto.getCustomer()).orElseThrow(NotFoundException::new));
-        registration.setVehicle(vehicleRepository.findById(registrationDto.getVehicle()).orElseThrow(NotFoundException::new));
-        return registration;
-    }
 
 }

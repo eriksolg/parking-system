@@ -4,6 +4,7 @@ import com.veebzone.parking.model.Registration;
 import com.veebzone.parking.repository.RegistrationRepository;
 import com.veebzone.parking.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,17 +15,17 @@ public class PricingService {
 
     @Autowired
     SlotRepository slotRepository;
+
+    @Value("${parkingApplication.basePrice}")
+    double basePrice;
+
     public double calculatePricePerMinute(Registration registration) {
-        double basePrice = 2.00;
+
         int vehicleWeight = registration.getVehicle().getWeight();
         int numberOfActiveRegistrations = registrationRepository.getNumberOfActiveRegistrations();
         int numberOfSlots = slotRepository.getNumberOfSlots();
 
-        double occupationPercentage = numberOfActiveRegistrations / numberOfSlots;
-
-        // Takes into account:
-        // 1) Vehicle weight
-        // 2) Slots occupied
-        return (double) vehicleWeight;
+        double occupationPercentage = (double) numberOfActiveRegistrations / (double) numberOfSlots;
+        return basePrice + occupationPercentage * (vehicleWeight / 1000);
     }
 }
