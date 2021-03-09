@@ -1,6 +1,8 @@
 package com.veebzone.parking.service;
 
 import com.veebzone.parking.dto.SlotDto;
+import com.veebzone.parking.exception.DuplicateValueException;
+import com.veebzone.parking.exception.InUseException;
 import com.veebzone.parking.exception.NotFoundException;
 import com.veebzone.parking.model.Floor;
 import com.veebzone.parking.model.Slot;
@@ -16,16 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class ParkingLotService {
-
     @Autowired
     FloorRepository floorRepository;
-
     @Autowired
     SlotRepository slotRepository;
-
     @Autowired
     RegistrationRepository registrationRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -33,65 +31,60 @@ public class ParkingLotService {
         return floorRepository.findAll();
     }
 
-    public void insertFloor(Floor floor) {
-        floorRepository.save(floor);
+    public Floor insertFloor(Floor floor) {
+        if (floorRepository.findFloorByFloorNumber(floor.getFloorNumber()) != null)
+            throw new DuplicateValueException();
+
+        return floorRepository.save(floor);
     }
 
     public Floor getSingleFloor(Long id) {
-
-        Floor floor = floorRepository.findById(id).orElseThrow(NotFoundException::new);
-        return floor;
+        return floorRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public void deleteSingleFloor(Long id) {
+        Floor floor = floorRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (slotRepository.findByFloor(floor) != null)
+            throw new InUseException();
+
         floorRepository.deleteById(id);
     }
 
     public List<SlotDto> getSlotsOnFloor(Long id) {
-        Optional<Floor> floor = floorRepository.findFloorByFloorNumber(id);
+        Floor floor = floorRepository.findById(id).orElseThrow(NotFoundException::new);
         List<Slot> slotsOnFloor =  slotRepository.findByFloor(floor);
 
-        List <SlotDto> slotDtos = slotsOnFloor
+        return slotsOnFloor
                 .stream().map(slot -> modelMapper.map(slot, SlotDto.class))
                 .collect(Collectors.toList());
-
-        return slotDtos;
     }
 
-    public void insertSlot(Slot slot) {
-        slotRepository.save(slot);
+    public Slot insertSlot(Slot slot) {
+        return slotRepository.save(slot);
     }
 
-    public void insertSlot(Long floorId, SlotDto slotDto) {
+    public Slot insertSlot(Long floorId, SlotDto slotDto) {
+        Floor floor = floorRepository.findById(floorId).orElseThrow(NotFoundException::new);
         Slot slot = new Slot();
         slot.setName(slotDto.getName());
-        slot.setFloor(floorRepository.findById(floorId).orElseThrow(NotFoundException::new));
-        insertSlot(slot);
-    }
+        slot.setFloor(floor);
 
+        return insertSlot(slot);
+    }
 
     public List<Slot> getAllSlots() {
         return slotRepository.findAll();
-    }
-
-    public SlotDto getSingleSlot(Long floorId, Long slotId) {
-        Slot slot = getSingleSlot(slotId);
-        if (slot.getFloor().getId() != floorId) {
-            throw new NotFoundException();
-        }
-        return modelMapper.map(slot, SlotDto.class);
     }
 
     public Slot getSingleSlot(Long slotId) {
         return slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
     }
 
-    public void deleteSingleSlot(Long floorId, Long slotId) {
+    public void deleteSingleSlot(Long slotId) {
         Slot slot = slotRepository.findById(slotId).orElseThrow(NotFoundException::new);
-        if (slot.getFloor().getId() != floorId) {
-            throw new NotFoundException();
-        }
+        if (registrationRepository.findRegistrationsBySlot(slot).size() != 0)
+            throw new InUseException();
+
         slotRepository.deleteById(slotId);
     }
-
 }

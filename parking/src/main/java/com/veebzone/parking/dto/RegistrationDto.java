@@ -22,8 +22,10 @@ public class RegistrationDto {
     @JsonProperty(value = "pricePerMinute", access = JsonProperty.Access.READ_ONLY)
     private double price;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Timestamp checkinTime;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Timestamp checkoutTime;
 
     private String notes;

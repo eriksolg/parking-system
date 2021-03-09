@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "/api/customers")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class CustomerController {
 
@@ -27,9 +27,7 @@ public class CustomerController {
     @ApiOperation(value="Create Customer")
     @PostMapping("/api/customers")
     @ResponseStatus(HttpStatus.CREATED)
-    public void inserCustomer(@RequestBody @Valid Customer customer) {
-        customerService.insertCustomer(customer);
-    }
+    public Customer insertCustomer(@RequestBody Customer customer) { return customerService.insertCustomer(customer);}
 
     @ApiOperation(value="Get Single Customer")
     @GetMapping("/api/customers/{id}")

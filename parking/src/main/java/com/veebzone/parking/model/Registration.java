@@ -18,8 +18,8 @@ public class Registration {
     @Column(name = "registration_id")
     private Long id;
 
-    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    //@JsonIdentityReference(alwaysAsId = true)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @NotNull
     @JoinColumn(name = "vehicle_id")

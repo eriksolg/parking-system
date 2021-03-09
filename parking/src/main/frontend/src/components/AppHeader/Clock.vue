@@ -50,7 +50,6 @@ time {
     color: #2B7A78;
     align-self: center;
     display: block;
-    font-weight: 500;
     height: 70%;
     align-self: center;
 }

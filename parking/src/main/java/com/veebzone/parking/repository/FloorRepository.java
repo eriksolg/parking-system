@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface FloorRepository extends JpaRepository<Floor, Long> {
-    @Query("SELECT f FROM Floor f WHERE f.id = :id")
-    Optional<Floor> findFloorByFloorNumber(Long id);
+    @Query("SELECT f FROM Floor f WHERE f.floorNumber = :floorNumber")
+    Floor findFloorByFloorNumber(String floorNumber);
 }

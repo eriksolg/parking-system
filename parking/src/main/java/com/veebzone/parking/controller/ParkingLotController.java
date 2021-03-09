@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "/api/floors")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ParkingLotController {
 
@@ -29,8 +30,8 @@ public class ParkingLotController {
     @ApiOperation(value="Create Floor")
     @PostMapping("/api/floors")
     @ResponseStatus(HttpStatus.CREATED)
-    public void insertFloor(@RequestBody @Valid Floor floor) {
-        parkingLotService.insertFloor(floor);
+    public Floor insertFloor(@RequestBody @Valid Floor floor) {
+        return parkingLotService.insertFloor(floor);
     }
 
     @ApiOperation(value="Get Single Floor")
@@ -51,13 +52,6 @@ public class ParkingLotController {
         return parkingLotService.getSlotsOnFloor(id);
     }
 
-    @ApiOperation(value="Create Slot")
-    @PostMapping("/api/floors/{floorId}/slots")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void insertSlot(@PathVariable Long floorId, @RequestBody SlotDto slotDto) {
-        parkingLotService.insertSlot(floorId, slotDto);
-    }
-
     @ApiOperation(value="Get All Slots")
     @GetMapping("/api/floors/slots")
     public List<Slot> getAllSlots() {
@@ -67,14 +61,8 @@ public class ParkingLotController {
     @ApiOperation(value="Create Slot")
     @PostMapping("/api/floors/slots")
     @ResponseStatus(HttpStatus.CREATED)
-    public void insertSlot(@RequestBody Slot slot) {
-        parkingLotService.insertSlot(slot);
-    }
-
-    @ApiOperation(value="Get Single Slot")
-    @GetMapping("/api/floors/{floorId}/slots/{slotId}")
-    public SlotDto getSingleSlot(@PathVariable Long floorId, @PathVariable Long slotId) {
-        return parkingLotService.getSingleSlot(floorId, slotId);
+    public Slot insertSlot(@RequestBody Slot slot) {
+        return parkingLotService.insertSlot(slot);
     }
 
     @ApiOperation(value="Get Single Slot")
@@ -84,9 +72,9 @@ public class ParkingLotController {
     }
 
     @ApiOperation(value="Delete Slot")
-    @DeleteMapping("/api/floors/{floorId}/slots/{slotId}")
-    public void deleteSingleSlot(@PathVariable Long floorId, @PathVariable Long slotId) {
-        parkingLotService.deleteSingleSlot(floorId, slotId);
+    @DeleteMapping("/api/floors/slots/{slotId}")
+    public void deleteSingleSlot(@PathVariable Long slotId) {
+        parkingLotService.deleteSingleSlot(slotId);
     }
 
 }

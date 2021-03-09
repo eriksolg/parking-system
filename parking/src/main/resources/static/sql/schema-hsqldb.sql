@@ -56,7 +56,11 @@ create table vehicle (
 
 alter table customer
     add constraint UQ_customer_id_number
-    unique (id_number)
+    unique (id_number);
+
+alter table floor
+    add constraint UQ_floor_number
+    unique (floor_number);
 
 alter table registration
     add constraint FK_registration_customer
@@ -80,4 +84,4 @@ alter table slot
 
 alter table vehicle
     add constraint UQ_vehicle_reg_number
-    unique (reg_number)
+    unique (reg_number);

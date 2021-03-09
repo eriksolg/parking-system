@@ -31,9 +31,11 @@ public class SlotAssignmentService {
     public Slot findCompatibleSlot(Registration registration) {
         findActiveRegistrations();
         findAvailableSlots();
-        List<Floor> availableFloors = filterAvailableFloors(registration);
+
+        List<Floor> availableFloors = findCompatibleFloors(registration);
         Floor floorWithMinWeightUsage = getFloorWithMinWeightUsage(availableFloors);
-        availableSlots.stream().filter(slot -> slot.getFloor().getId() == floorWithMinWeightUsage.getId());
+
+        availableSlots.stream().filter(slot -> slot.getFloor().getId().equals(floorWithMinWeightUsage.getId()));
 
         return availableSlots.size() != 0 ? availableSlots.get(0) : null;
     }
@@ -41,6 +43,7 @@ public class SlotAssignmentService {
     private Floor getFloorWithMinWeightUsage(List<Floor> availableFloors) {
         Floor floorWithMinWeightUsage = null;
         int currentMinWeightUsage = Integer.MAX_VALUE;
+
         for (Floor floor : availableFloors) {
             int floorWeightUsage = floorWeightUsages.get(floor.getId());
             if (floorWeightUsage < currentMinWeightUsage) {
@@ -52,7 +55,7 @@ public class SlotAssignmentService {
         return floorWithMinWeightUsage;
     }
 
-    private List<Floor> filterAvailableFloors(Registration registration) {
+    private List<Floor> findCompatibleFloors(Registration registration) {
         List<Floor> availableFloors = new ArrayList<>();
 
         for (Slot slot : availableSlots) {
@@ -64,6 +67,7 @@ public class SlotAssignmentService {
         floorWeightUsages = new HashMap<>();
 
         availableFloors.removeIf(floor -> floor.getHeight() <= registration.getVehicle().getHeight());
+
         for (Floor floor : availableFloors) {
             int currentWeightUsage = 0;
             for (Registration activeRegistration : activeRegistrations) {
@@ -81,8 +85,8 @@ public class SlotAssignmentService {
         activeRegistrations = registrationRepository.findActiveRegistrations();
     }
 
-    public  void findAvailableSlots() {
+    public List<Slot> findAvailableSlots() {
         List<Long> occupiedSlotsIds = activeRegistrations.stream().map(activeReg -> activeReg.getSlot().getId()).collect(Collectors.toList());
-        availableSlots = slotRepository.findByIdExcluded(occupiedSlotsIds);
+        return slotRepository.findByIdExcluded(occupiedSlotsIds);
     }
 }

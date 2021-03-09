@@ -31,8 +31,6 @@ public class RegistrationDtoMapper {
 
     public Registration mapRegistrationDtoToEntity(RegistrationDto registrationDto) {
         Registration registration = new Registration();
-        registration.setCheckinTime(registrationDto.getCheckinTime());
-        registration.setCheckoutTime(registrationDto.getCheckoutTime());
         registration.setNotes(registrationDto.getNotes());
         registration.setCustomer(customerRepository.findById(registrationDto.getCustomer()).orElseThrow(NotFoundException::new));
         registration.setVehicle(vehicleRepository.findById(registrationDto.getVehicle()).orElseThrow(NotFoundException::new));

@@ -9,23 +9,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PricingService {
-
     @Autowired
     RegistrationRepository registrationRepository;
-
     @Autowired
     SlotRepository slotRepository;
-
     @Value("${parkingApplication.basePrice}")
     double basePrice;
 
     public double calculatePricePerMinute(Registration registration) {
-
         int vehicleWeight = registration.getVehicle().getWeight();
         int numberOfActiveRegistrations = registrationRepository.getNumberOfActiveRegistrations();
         int numberOfSlots = slotRepository.getNumberOfSlots();
 
         double occupationPercentage = (double) numberOfActiveRegistrations / (double) numberOfSlots;
-        return basePrice + occupationPercentage * (vehicleWeight / 1000);
+        return basePrice + occupationPercentage * ((double) vehicleWeight / 1000);
     }
 }

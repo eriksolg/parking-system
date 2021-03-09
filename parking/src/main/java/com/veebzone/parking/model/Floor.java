@@ -26,7 +26,7 @@ public class Floor {
     private Set<Slot> slots;
 
     @NotNull
-    @Column(name = "floor_number")
+    @Column(name = "floor_number", unique = true)
     private String floorNumber;
 
     @NotNull

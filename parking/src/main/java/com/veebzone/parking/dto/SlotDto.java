@@ -8,5 +8,7 @@ public class SlotDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
+    private long floor;
+
     private String name;
 }

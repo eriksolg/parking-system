@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "/api/vehicles")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class VehicleController {
 
@@ -26,8 +27,8 @@ public class VehicleController {
     @ApiOperation(value="Create Vehicle")
     @PostMapping("/api/vehicles")
     @ResponseStatus(HttpStatus.CREATED)
-    public void inserVehicle(@RequestBody @Valid Vehicle vehicle) {
-        vehicleService.inserVehicle(vehicle);
+    public Vehicle inserVehicle(@RequestBody @Valid Vehicle vehicle) {
+        return vehicleService.insertVehicle(vehicle);
     }
 
     @ApiOperation(value="Get Single Vehicle")
