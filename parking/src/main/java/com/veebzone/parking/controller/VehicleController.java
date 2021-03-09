@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "/api/vehicles")
@@ -27,7 +26,7 @@ public class VehicleController {
     @ApiOperation(value="Create Vehicle")
     @PostMapping("/api/vehicles")
     @ResponseStatus(HttpStatus.CREATED)
-    public Vehicle inserVehicle(@RequestBody @Valid Vehicle vehicle) {
+    public Vehicle inserVehicle(@RequestBody Vehicle vehicle) {
         return vehicleService.insertVehicle(vehicle);
     }
 

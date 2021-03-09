@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "/api/floors")
@@ -30,7 +29,7 @@ public class ParkingLotController {
     @ApiOperation(value="Create Floor")
     @PostMapping("/api/floors")
     @ResponseStatus(HttpStatus.CREATED)
-    public Floor insertFloor(@RequestBody @Valid Floor floor) {
+    public Floor insertFloor(@RequestBody Floor floor) {
         return parkingLotService.insertFloor(floor);
     }
 
