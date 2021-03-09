@@ -50,37 +50,49 @@ export default {
             customers: []
         }
     },
-    async mounted() {
-        await axios.get('/api/registrations', {
+    methods: {
+        async fetchRegistrations() {
+            let fetchedData = [];
+            await axios.get('/api/registrations', {
                 params: {
                     active: true
                 }
             }).then(response => {
-                this.registrations = response.data;
+                fetchedData = response.data;
                 
             }).catch(err => console.log(err));
 
-        this.registrations.forEach(async registration => {
-            let customerId = registration.customerId;
-            let slotId = registration.slotId;
+            fetchedData.forEach(async registration => {
+                let customerId = registration.customerId;
+                let slotId = registration.slotId;
 
-            let customer;
-            let slot;
+                let customer;
+                let slot;
 
-            await axios.get(`/api/customers/${customerId}`).then(response => {
-                customer = response.data;
-            }).catch(err => console.log(err));
+                await axios.get(`/api/customers/${customerId}`).then(response => {
+                    customer = response.data;
+                }).catch(err => console.log(err));
 
 
-            await axios.get(`/api/floors/slots/${slotId}`).then(response => {
-                slot = response.data;
-            }).catch(err => console.log(err));
+                await axios.get(`/api/floors/slots/${slotId}`).then(response => {
+                    slot = response.data;
+                }).catch(err => console.log(err));
 
-            Vue.set(registration, 'firstName', customer.firstName);
-            Vue.set(registration, 'lastName', customer.lastName);
-            Vue.set(registration, 'slot', slot.name);
-            Vue.set(registration, 'floor', slot.floor);
-        });
+                Vue.set(registration, 'firstName', customer.firstName);
+                Vue.set(registration, 'lastName', customer.lastName);
+                Vue.set(registration, 'slot', slot.name);
+                Vue.set(registration, 'floor', slot.floor);
+            });
+
+            this.registrations = fetchedData;
+        }
+    },
+    mounted() {
+        this.fetchRegistrations();
+        this.interval = setInterval(this.fetchRegistrations, 30000);
+    },
+    beforeDestroy() {
+        clearInterval(this.interval);
     }
 }
 </script>
