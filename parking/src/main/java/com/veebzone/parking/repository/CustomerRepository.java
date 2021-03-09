@@ -2,7 +2,6 @@ package com.veebzone.parking.repository;
 
 
 import com.veebzone.parking.model.Customer;
-import com.veebzone.parking.model.Floor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

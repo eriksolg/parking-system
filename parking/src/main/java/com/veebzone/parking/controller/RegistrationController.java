@@ -1,7 +1,6 @@
 package com.veebzone.parking.controller;
 
 import com.veebzone.parking.dto.RegistrationDto;
-import com.veebzone.parking.model.Registration;
 import com.veebzone.parking.service.RegistrationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Api(tags = "/api/registrations")

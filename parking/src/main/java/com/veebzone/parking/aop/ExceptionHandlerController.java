@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(
-            NotFoundException ex, WebRequest request) {
+            NotFoundException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -28,7 +27,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSlotsLeftException.class)
     public ResponseEntity<Object> handleNoSlotsLeftException(
-            NoSlotsLeftException ex, WebRequest request) {
+            NoSlotsLeftException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -39,7 +38,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AlreadyRegisteredException.class)
     public ResponseEntity<Object> handleAlreadyRegisteredException(
-            AlreadyRegisteredException ex, WebRequest request) {
+            AlreadyRegisteredException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -50,7 +49,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InUseException.class)
     public ResponseEntity<Object> handleInUseException(
-            InUseException ex, WebRequest request) {
+            InUseException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -61,7 +60,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DuplicateValueException.class)
     public ResponseEntity<Object> handleDuplicateValueException(
-            DuplicateValueException ex, WebRequest request) {
+            DuplicateValueException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
