@@ -64,6 +64,11 @@ war {
   enabled=true
 }
 
+jar {
+	enabled=true
+}
+
+
 node {
 	nodeProjectDir = file("${project.projectDir}/src/main/frontend")
 }
