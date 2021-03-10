@@ -33,6 +33,7 @@ task copyFrontendToBuild(type: Copy) {
 }
 
 task npmBuild(type: NpmTask) {
+	dependsOn 'npmInstall'
 	args = ['run', 'build']
 }
 
