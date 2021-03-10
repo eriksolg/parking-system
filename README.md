@@ -3,6 +3,9 @@
 Deployed: https://parking.veebzone.com
 
 ```
+# Prerequisite
+./gradlew npmInstall
+
 # Run
 ./gradlew appRun
 
