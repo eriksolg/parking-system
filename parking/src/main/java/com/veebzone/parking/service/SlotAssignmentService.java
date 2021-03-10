@@ -29,11 +29,11 @@ public class SlotAssignmentService {
     Map<Long, Integer> floorWeightUsages;
 
     public Slot findCompatibleSlot(Registration registration) {
-        findActiveRegistrations();
+        activeRegistrations = registrationRepository.findActiveRegistrations();
         availableSlots = slotRepository.findAvailableSlots();
 
-        List<Floor> availableFloors = findCompatibleFloors(registration);
-        Floor floorWithMinWeightUsage = getFloorWithMinWeightUsage(availableFloors);
+        List<Floor> compatibleFloors = findCompatibleFloors(registration);
+        Floor floorWithMinWeightUsage = getFloorWithMinWeightUsage(compatibleFloors);
 
         availableSlots.stream().filter(slot -> slot.getFloor().getId().equals(floorWithMinWeightUsage.getId()));
 
@@ -79,9 +79,5 @@ public class SlotAssignmentService {
         availableFloors.removeIf(floor -> floorWeightUsages.get(floor.getId()) + registration.getVehicle().getWeight() >= floor.getWeightCapacity());
 
         return availableFloors;
-    }
-
-    private void findActiveRegistrations() {
-        activeRegistrations = registrationRepository.findActiveRegistrations();
     }
 }
