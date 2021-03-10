@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(tags = "/api/registrations")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class RegistrationController {
     @Autowired

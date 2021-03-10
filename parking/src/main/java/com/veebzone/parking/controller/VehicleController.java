@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(tags = "/api/vehicles")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class VehicleController {
 
