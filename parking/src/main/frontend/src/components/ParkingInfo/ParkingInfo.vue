@@ -126,6 +126,7 @@ td {
 
 th {
   color: white;
+  text-align: left;
 }
 
 td {
@@ -133,7 +134,6 @@ td {
 }
 
 th {
-  text-align: left;
 }
 thead th {
   background-color: #2b7a78;

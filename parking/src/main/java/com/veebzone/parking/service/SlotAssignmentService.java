@@ -30,7 +30,7 @@ public class SlotAssignmentService {
 
     public Slot findCompatibleSlot(Registration registration) {
         findActiveRegistrations();
-        findAvailableSlots();
+        availableSlots = slotRepository.findAvailableSlots();
 
         List<Floor> availableFloors = findCompatibleFloors(registration);
         Floor floorWithMinWeightUsage = getFloorWithMinWeightUsage(availableFloors);
@@ -83,10 +83,5 @@ public class SlotAssignmentService {
 
     private void findActiveRegistrations() {
         activeRegistrations = registrationRepository.findActiveRegistrations();
-    }
-
-    public List<Slot> findAvailableSlots() {
-        List<Long> occupiedSlotsIds = activeRegistrations.stream().map(activeReg -> activeReg.getSlot().getId()).collect(Collectors.toList());
-        return slotRepository.findByIdExcluded(occupiedSlotsIds);
     }
 }

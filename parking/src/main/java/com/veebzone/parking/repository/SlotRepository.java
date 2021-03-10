@@ -14,8 +14,8 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     @Query("SELECT s FROM Slot s WHERE s.floor = :floor")
     List<Slot> findByFloor(Floor floor);
 
-    @Query("SELECT s FROM Slot s WHERE s.id NOT IN ?1")
-    List<Slot> findByIdExcluded(List<Long> ids);
+    @Query("SELECT s FROM Slot s WHERE NOT EXISTS ( SELECT r FROM Registration r WHERE r.checkinTime < CURRENT_TIMESTAMP AND (r.checkoutTime > CURRENT_TIMESTAMP OR r.checkoutTime is null) AND r.slot = s)")
+    List<Slot> findAvailableSlots();
 
     @Query("SELECT COUNT(s) FROM Slot s")
     int getNumberOfSlots();
